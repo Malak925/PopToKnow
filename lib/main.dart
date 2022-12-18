@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:poptoknow/widgets/PopularPeople.dart';
-import 'package:poptoknow/widgets/images.dart';
+import 'package:poptoknow/screens/details.dart';
+
 import 'package:tmdb_api/tmdb_api.dart';
 
 void main() {
@@ -60,10 +60,11 @@ class _HomeState extends State<Home> {
         itemCount: popularToKnow.length,
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
-            hoverColor: Colors.amber,
-            focusColor: Colors.red,
-            overlayColor: Colors.blue,
-            onTap: (() {}),
+            onTap: (() {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return Details(index: index, people: popularToKnow);
+              }));
+            }),
             child: ListTile(title: Text(popularToKnow[index]['name'])),
           );
         },
