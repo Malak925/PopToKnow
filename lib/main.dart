@@ -2,13 +2,22 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:poptoknow/providers/DarkThemeProvider.dart';
 import 'package:poptoknow/screens/details.dart';
+import 'package:provider/provider.dart';
 
 import 'package:tmdb_api/tmdb_api.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    home: MyApp(),
+  runApp(ChangeNotifierProvider(
+    create: (context) {
+      return ThemeProvider();
+    },
+    builder: (context, child) {
+      final pro = Provider.of<ThemeProvider>(context);
+      return MaterialApp(
+          theme: ThemeData(brightness: pro.Theme), home: MyApp());
+    },
   ));
 }
 
@@ -52,10 +61,28 @@ class _HomeState extends State<Home> {
     print(popularToKnow);
   }
 
+  bool val = false;
   @override
   Widget build(BuildContext context) {
+    final pro = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
-      appBar: AppBar(title: Text("Popular People")),
+      appBar: AppBar(
+        title: Text("Popular People"),
+        actions: [
+          Consumer<ThemeProvider>(
+            builder: (context, value, child) {
+              return IconButton(
+                  onPressed: () {
+                    setState(() {
+                      pro.changeTheme();
+                    });
+                  },
+                  icon: Icon(Icons.nightlight_outlined));
+            },
+          )
+        ],
+      ),
       body: ListView.builder(
         itemCount: popularToKnow.length,
         itemBuilder: (BuildContext context, int index) {
