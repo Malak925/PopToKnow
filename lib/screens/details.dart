@@ -4,8 +4,14 @@ import 'package:poptoknow/screens/Image.dart';
 class Details extends StatelessWidget {
   final List people;
   final int index;
+  // final List det;
 // poster_path
-  const Details({super.key, required this.index, required this.people});
+  const Details({
+    super.key,
+    required this.index,
+    required this.people,
+    // required this.det
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +37,9 @@ class Details extends StatelessWidget {
                 ? "Gender: Male"
                 : "Gender: Female"),
             Text("Popularity: ${people[index]['popularity']}"),
+            // Text("Who is ${people[index]['name']}"),
+            // Text("Actor ID ${people[index]['id']}"),
+            // Text(det[index]),
             Text(
               "Popular Movies",
               style: TextStyle(fontSize: 30),
@@ -70,11 +79,6 @@ class Details extends StatelessWidget {
                 knownFor[2]['overview'],
               ),
             ),
-            // Container(
-            //   child: Image(
-            // image: NetworkImage("https://image.tmdb.org/t/p/w500" +
-            //     knownFor[1]['backdrop_path'])),
-            // )
 
             Container(
               height: 200,
