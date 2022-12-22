@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:poptoknow/screens/Image.dart';
+import 'package:poptoknow/Components/Image.dart';
+import 'package:poptoknow/Components/Movies.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 
 class Details extends StatelessWidget {
   final List people;
   final int index;
-  // final List det;
-// poster_path
   const Details({
     super.key,
     required this.index,
     required this.people,
-    // required this.det
   });
 
   @override
@@ -37,78 +36,38 @@ class Details extends StatelessWidget {
                 ? "Gender: Male"
                 : "Gender: Female"),
             Text("Popularity: ${people[index]['popularity']}"),
-            // Text("Who is ${people[index]['name']}"),
-            // Text("Actor ID ${people[index]['id']}"),
-            // Text(det[index]),
             Text(
               "Popular Movies",
               style: TextStyle(fontSize: 30),
             ),
             Text(
-              knownFor[0]["original_title"] != null
-                  ? knownFor[0]["original_title"]
-                  : "Text NOT Found",
+              knownFor[0]["original_title"] ?? "Text NOT Found",
               style: TextStyle(fontSize: 20),
             ),
             Text(
               knownFor[0]['overview'],
             ),
             Text(
-              knownFor[1]["original_title"] != null
-                  ? knownFor[1]["original_title"]
-                  : "Text NOT Found",
+              knownFor[1]["original_title"] ?? "Text NOT Found",
               style: TextStyle(fontSize: 20),
             ),
-
             Container(
               color: Colors.blue,
               child: Text(
                 knownFor[1]['overview'],
               ),
             ),
-
             Text(
-              knownFor[2]["original_title"] != null
-                  ? knownFor[2]["original_title"]
-                  : "Text NOT Found",
+              knownFor[2]["original_title"] ?? "Text NOT Found",
               style: TextStyle(fontSize: 20),
             ),
             Container(
               color: Colors.red,
               child: Text(
-                knownFor[2]['overview'],
+                knownFor[2]['overview'] ?? "Text NOT Found",
               ),
             ),
-
-            Container(
-              height: 200,
-              width: 200,
-              child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 0,
-                      crossAxisSpacing: 5),
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    NetworkImage picV = NetworkImage(
-                        "https://image.tmdb.org/t/p/w500" +
-                            knownFor[index]['poster_path']);
-                    return InkWell(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: ((context) {
-                            return ImageView(pic: picV);
-                          })));
-                        },
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(image: picV),
-                          ),
-                        ));
-                  }),
-            )
+            MoviesView(known_for: people[index]['known_for']),
           ],
         ),
       ),
